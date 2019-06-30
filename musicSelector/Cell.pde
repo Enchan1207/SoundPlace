@@ -1,10 +1,11 @@
 //--楽曲セル
 class Cell{
-  String icon, title, composer;
+  PImage icon;
+  String title, composer;
   
   //--
-  Cell(String icon, String title, String composer){
-    this.icon = icon;
+  Cell(String path, String title, String composer){
+    this.icon = loadImage(path);
     this.title = title;
     this.composer = composer;
   }

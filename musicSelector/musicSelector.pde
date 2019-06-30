@@ -2,20 +2,16 @@
 CellList cl = new CellList();
 
 void setup(){
-  size(500, 500);
+  size(500, 500, P3D);
   cl.createCellList();
 }
 
 void draw(){  
+  background(0);
   cl.show();
-  println("選択中の曲" + cl.list[cl.index].title);
 }
 
 void keyTyped(){
   //--リストスクロール
-  if(key == 'w'){
-    cl.move(-1);    
-  }else if(key == 's'){
-    cl.move(1);      
-  }
+  cl.move(int(key == 's') - int(key == 'w'));
 }
