@@ -1,15 +1,22 @@
 //--
-Sparcle sp[] = new Sparcle[4096];
+Sparcle sp[] = new Sparcle[128];
 int sequencer[][] = { //シーケンサの状態
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0}
-    };
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0}
+};
+color colortable[] = {
+    #FF0000,
+    #00FF00,
+    #FF8000,
+    #FFFF00
+};
+int lcnt = 0;
 
 //--
 void setup() {
-    //size(500,400, P3D);
+    // size(1000,700, P3D);
     fullScreen(P3D);
     noCursor();
     
@@ -20,21 +27,53 @@ void setup() {
     }
 
     //シーケンサに適当な値をぶち込む
-    sequencer[2][7] = 1;
-    sequencer[3][5] = 1;
+    for(int y = 0; y < 4; y++){
+        for(int x = 0; x < 8; x++){
+            sequencer[y][x] = int(random(2));
+        }
+    }
 }
 
+int cur = 0;
 void draw() {
     background(0);
     //--各スパークルの描画
     for (int i = 0; i < sp.length; i++) {
-        // sp[i].move();
+        sp[i].move();
     }
 
     //--シーケンサ表示
     pushMatrix();
-    // rotateX(radians(30));
-    stroke(#FF0000);
-    rect(30,30, width-60,90);
+    rotateX(radians(45));
+
+    int init_x = (width - (60*9)) / 2;
+    int init_y = height - 350;
+    
+    //--動くライン
+    noStroke();
+    fill(#0000FF,128);
+    rect((init_x + 50) + (60 * cur), init_y - 10, 60, 240);
+    if(lcnt%10==0)cur++;
+    if(cur > 7)cur = 0;
+
+    //--ボタン
+    noFill();
+    for(int y = 0; y < 4; y++){
+        for(int x = 0; x < 9; x++){
+            strokeWeight((y * 2) + 2);
+            stroke(colortable[y]);
+            if(x != 0){
+                rect(init_x + x * 60, init_y + y * 60, 40, 40);
+            }else{
+                ellipseMode(CORNER);
+                ellipse(init_x, init_y + y * 60, 40, 40);
+            }
+        }
+    }
     popMatrix();
+
+
+
+    delay(1);
+    lcnt++;
 }
