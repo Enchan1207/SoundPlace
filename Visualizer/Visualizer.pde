@@ -36,7 +36,7 @@ void draw(){
   for(int i = 0; i < fftLin.avgSize(); i++){
     fill(i * w, 40, 100);
     float size = fftLin.getAvg(i) * spectrumScale;
-    arc(256, 256, size, size, radians(i*12),radians(i*12+12));
-    //rect(i * w, height, i * w + w, height - fftLin.getAvg(i) * spectrumScale);
+    //arc(256, 256, size, size, radians(i*12),radians(i*12+12));
+    rect(i * w, height, i * w + w, height - fftLin.getAvg(i) * spectrumScale);
   }
 }
