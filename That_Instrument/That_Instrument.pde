@@ -1,3 +1,5 @@
+import midiSequencer.*; //midiSequencer can download on https://github.com/Enchan1207/midiGenerator
+
 //--
 Sparcle sp[] = new Sparcle[128];
 int sequencer[][] = { //シーケンサの状態
@@ -13,6 +15,22 @@ color colortable[] = {
     #FFFF00
 };
 int lcnt = 0;
+
+//----
+int note[] = {
+    0xf0,
+    0x0f,
+    0x00,
+    0x00
+};
+int insts[] = {
+    0,0,0,0
+};
+int pitchs[] = {
+    48, 48, 48, 48
+};
+
+Controller ctr = new Controller();
 
 //--
 void setup() {
@@ -32,6 +50,13 @@ void setup() {
             sequencer[y][x] = int(random(2));
         }
     }
+
+    ctr.setNotes(note);
+    ctr.setInsts(insts);
+    ctr.setPitchs(pitchs);
+    ctr.loadNotes();
+
+    ctr.play();
 }
 
 int cur = 0;
@@ -53,8 +78,7 @@ void draw() {
     noStroke();
     fill(#0000FF,128);
     rect((init_x + 50) + (60 * cur), init_y - 10, 60, 240);
-    if(lcnt%10==0)cur++;
-    if(cur > 7)cur = 0;
+    cur = int(ctr.getCurrentPosition() / 12) - 1;
 
     //--ボタン
     noFill();
