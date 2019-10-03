@@ -1,41 +1,29 @@
-import midiSequencer.*; //midiSequencer can download on https://github.com/Enchan1207/midiGenerator
+/*
+ * 本体
+*/
+
+import midiMixer.*;
+import javax.sound.midi.*;
+import java.io.*;
 
 //--
 Sparcle sp[] = new Sparcle[128];
-int sequencer[][] = { //シーケンサの状態
-    {0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0}
-};
-color colortable[] = {
-    #FF0000,
-    #00FF00,
-    #FF8000,
-    #FFFF00
-};
 int lcnt = 0;
 
-//----
-int note[] = {
-    0xf0,
-    0x0f,
-    0x00,
-    0x00
-};
-int insts[] = {
-    0,0,0,0
-};
-int pitchs[] = {
-    48, 48, 48, 48
-};
-
-Controller ctr = new Controller();
+//--
+Sequencer sequencer;
+SeqMixer mixer = new SeqMixer(Sequence.PPQ, 480);
+Sequence selected[] = new Sequence[4];
+Sequence sequences[][] = new Sequence[4][4];
+int selidx[] = {0, 0, 0, 0}; //各チャンネルで選択されている音源番号
+int insts[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; //楽器番号/ch
+int tempo = 120; //テンポ
 
 //--
 void setup() {
-    // size(1000,700, P3D);
-    fullScreen(P3D);
+    //--
+    size(400, 300, P3D);
+    // fullScreen(P3D);
     noCursor();
     
     //--スパークル初期化
@@ -44,19 +32,30 @@ void setup() {
         sp[i].status = -1;
     }
 
-    //シーケンサに適当な値をぶち込む
-    for(int y = 0; y < 4; y++){
-        for(int x = 0; x < 8; x++){
-            sequencer[y][x] = int(random(2));
+    //--ミックスする音源ファイルを取得
+    File homeDir[] = new File("/Users/ttsof/Desktop/LunaCF/SourceCode/Processing/App/SoundPlace/That_Instrument/musics").listFiles();
+    for(int i = 0; i < 4; i++){
+        File childDir[] = homeDir[i].listFiles();
+        for(int j = 0; j < 4; j++){
+            try {
+                sequences[i][j] = MidiSystem.getSequence(childDir[j]);    
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
-    ctr.setNotes(note);
-    ctr.setInsts(insts);
-    ctr.setPitchs(pitchs);
-    ctr.loadNotes();
+    //--シーケンサ準備
+    try {
+        sequencer = MidiSystem.getSequencer();
+        sequencer.open();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 
-    ctr.play();
+    //--ミキサー起動
+    mix();
+
 }
 
 int cur = 0;
@@ -67,37 +66,29 @@ void draw() {
         sp[i].move();
     }
 
-    //--シーケンサ表示
-    pushMatrix();
-    rotateX(radians(45));
-
-    int init_x = (width - (60*9)) / 2;
-    int init_y = height - 350;
-    
-    //--動くライン
-    noStroke();
-    fill(#0000FF,128);
-    rect((init_x + 50) + (60 * cur), init_y - 10, 60, 240);
-    cur = int(ctr.getCurrentPosition() / 12) - 1;
-
-    //--ボタン
-    noFill();
-    for(int y = 0; y < 4; y++){
-        for(int x = 0; x < 9; x++){
-            strokeWeight((y * 2) + 2);
-            stroke(colortable[y]);
-            if(x != 0){
-                rect(init_x + x * 60, init_y + y * 60, 40, 40);
-            }else{
-                ellipseMode(CORNER);
-                ellipse(init_x, init_y + y * 60, 40, 40);
-            }
-        }
-    }
-    popMatrix();
-
-
-
-    delay(1);
     lcnt++;
 }
+
+//--選択状態によってミックス
+void mix(){
+    for(int i = 0; i < 4; i++){
+        mixer.setSequence(i, sequences[i][selidx[i]]);
+    }
+
+    long current = 0;
+    if(sequencer.isRunning()){
+        current = sequencer.getTickPosition();
+    }
+    try {
+        sequencer.stop();
+        sequencer.setSequence(mixer.getSequence());
+        sequencer.setTickPosition(current);
+        sequencer.setLoopStartPoint(0);
+        sequencer.setLoopEndPoint(sequencer.getTickLength());
+        sequencer.setLoopCount(-1);
+        sequencer.start();   
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+

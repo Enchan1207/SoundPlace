@@ -28,7 +28,7 @@ class Sparcle {
                 if (size > 0 || alpha(col) > 0) {
                     status = 1;
                     col = color(red(col), green(col), blue(col), alpha(col) - 5);
-                    size--;
+                    size -= this.spd;
                 } else {
                     status = -1;
                 }
@@ -37,7 +37,7 @@ class Sparcle {
                 if (alpha(col) > 0) {
                     status = 1;
                     angle += 0.1;
-                    size++;
+                    size += this.spd;
                     col = color(red(col), green(col), blue(col), alpha(col) - 5);
                 } else {
                     status = -1;
@@ -47,7 +47,7 @@ class Sparcle {
                 if (alpha(col) > 0) {
                     status = 1;
                     angle -= 0.1;
-                    size++;
+                    size += this.spd;
                     col = color(red(col), green(col), blue(col), alpha(col) - 5);
                 } else {
                     status = -1;
@@ -56,7 +56,7 @@ class Sparcle {
             case 3: //フェードアウト+拡大
                 if (alpha(col) > 0) {
                     status = 1;
-                    size++;
+                    size += this.spd;
                     col = color(red(col), green(col), blue(col), alpha(col) - 5);
                 } else {
                     status = -1;
@@ -153,6 +153,16 @@ class Sparcle {
                     rotateZ(-angle);
                     rotateX(angle);
                     box(size);
+                    popMatrix();
+                    break;
+
+                case 7: //長さ指定
+                    pushMatrix();
+                    translate(x, y);
+                    rotate(angle);
+                    //--角度に従って線を描く
+                    strokeWeight(3);
+                    line(-size / 2, 0, size / 2, 0);
                     popMatrix();
                     break;
                     
