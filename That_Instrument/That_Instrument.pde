@@ -1,16 +1,16 @@
 /*
- * 本体
+ * SoundPlace 本体
 */
+
 
 import midiMixer.*;
 import javax.sound.midi.*;
 import java.io.*;
 
-//--
-Sparcle sp[] = new Sparcle[128];
-int lcnt = 0;
+//--映像関連
+SparcleManager manager = new SparcleManager();
 
-//--
+//--midi関連
 Sequencer sequencer;
 SeqMixer mixer = new SeqMixer(Sequence.PPQ, 480);
 Sequence selected[] = new Sequence[4];
@@ -19,18 +19,15 @@ int selidx[] = {0, 0, 0, 0}; //各チャンネルで選択されている音源�
 int insts[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; //楽器番号/ch
 int tempo = 120; //テンポ
 
+//--システム
+int lcnt = 0;
+
 //--
 void setup() {
     //--
-    size(400, 300, P3D);
-    // fullScreen(P3D);
+    // size(400, 300, P3D);
+    fullScreen(P3D);
     noCursor();
-    
-    //--スパークル初期化
-    for (int i = 0; i < sp.length; i++) {
-        sp[i] = new Sparcle(0, 0, 0, 0, 0, 0, 0, 0);
-        sp[i].status = -1;
-    }
 
     //--ミックスする音源ファイルを取得
     File homeDir[] = new File("/Users/ttsof/Desktop/LunaCF/SourceCode/Processing/App/SoundPlace/That_Instrument/musics").listFiles();
@@ -56,14 +53,19 @@ void setup() {
     //--ミキサー起動
     mix();
 
+    // manager.beatEffect(); //この命令をミキサーかどこかでできればいいんだが…ん?こんなところにsequencerとaddeventlistenerが…?
+    
+    
+
 }
 
-int cur = 0;
 void draw() {
     background(0);
-    //--各スパークルの描画
-    for (int i = 0; i < sp.length; i++) {
-        sp[i].move();
+
+    manager.update();
+
+    if(mousePressed){
+        manager.radialEffect();
     }
 
     lcnt++;
@@ -91,4 +93,3 @@ void mix(){
         e.printStackTrace();
     }
 }
-

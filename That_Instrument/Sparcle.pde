@@ -1,4 +1,8 @@
-//--スパークル
+/*
+ * スパークル描画クラス
+*/
+
+
 class Sparcle {
     //--
     int mtype, stype; //移動タイプ、描画タイプ
@@ -22,58 +26,64 @@ class Sparcle {
     }
 
     //--移動
-    void move() {
-        switch(mtype) {
-            case 0: //フェードアウトしながら縮小し、消滅
-                if (size > 0 || alpha(col) > 0) {
-                    status = 1;
-                    col = color(red(col), green(col), blue(col), alpha(col) - 5);
-                    size -= this.spd;
-                } else {
-                    status = -1;
-                }
-                break;
-            case 1: //回転(cw)+フェードアウト+拡大
-                if (alpha(col) > 0) {
-                    status = 1;
-                    angle += 0.1;
-                    size += this.spd;
-                    col = color(red(col), green(col), blue(col), alpha(col) - 5);
-                } else {
-                    status = -1;
-                }
-                break;
-            case 2: //回転(ccw)+フェードアウト+拡大
-                if (alpha(col) > 0) {
-                    status = 1;
-                    angle -= 0.1;
-                    size += this.spd;
-                    col = color(red(col), green(col), blue(col), alpha(col) - 5);
-                } else {
-                    status = -1;
-                }
-                break;
-            case 3: //フェードアウト+拡大
-                if (alpha(col) > 0) {
-                    status = 1;
-                    size += this.spd;
-                    col = color(red(col), green(col), blue(col), alpha(col) - 5);
-                } else {
-                    status = -1;
-                }
-                break;
-            case 4: //angleの向いている方向に移動+フェードアウト
-                if (alpha(col) > 0) {
-                    status = 1;
-                    x += cos(angle) * this.spd;
-                    y += sin(angle) * this.spd;
-                    col = color(red(col), green(col), blue(col), alpha(col) - 2);
-                } else {
-                    status = -1;
-                }
-                break;
+    int move() {
+        //動作状態が-1ならループごとスキップ
+        if(status != -1){
+            switch(mtype) {
+                case 0: //フェードアウトしながら縮小し、消滅
+                    if (size > 0 || alpha(col) > 0) {
+                        status = 1;
+                        col = color(red(col), green(col), blue(col), alpha(col) - this.spd);
+                        size -= this.spd;
+                    } else {
+                        status = -1;
+                    }
+                    break;
+                case 1: //回転(cw)+フェードアウト+拡大
+                    if (alpha(col) > 0) {
+                        status = 1;
+                        angle += 0.1;
+                        size += this.spd;
+                        col = color(red(col), green(col), blue(col), alpha(col) - this.spd);
+                    } else {
+                        status = -1;
+                    }
+                    break;
+                case 2: //回転(ccw)+フェードアウト+拡大
+                    if (alpha(col) > 0) {
+                        status = 1;
+                        angle -= 0.1;
+                        size += this.spd;
+                        col = color(red(col), green(col), blue(col), alpha(col) - this.spd);
+                    } else {
+                        status = -1;
+                    }
+                    break;
+                case 3: //フェードアウト+拡大
+                    if (alpha(col) > 0) {
+                        status = 1;
+                        size += this.spd;
+                        col = color(red(col), green(col), blue(col), alpha(col) - this.spd);
+                    } else {
+                        status = -1;
+                    }
+                    break;
+                case 4: //angleの向いている方向に移動+フェードアウト
+                    if (alpha(col) > 0) {
+                        angle += radians(this.spd);
+                        x += cos(angle) * this.spd;
+                        y += sin(angle) * this.spd;
+                        col = color(red(col), green(col), blue(col), alpha(col) - this.spd);
+                    } else {
+                        status = -1;
+                    }
+                    break;
+            }
+            show();
+            return 0;
         }
-        show();
+        
+        return 1;
     }
 
     //--描画
