@@ -70,7 +70,6 @@ class Sparcle {
                     break;
                 case 4: //angleの向いている方向に移動+フェードアウト
                     if (alpha(col) > 0) {
-                        angle += radians(this.spd);
                         x += cos(angle) * this.spd;
                         y += sin(angle) * this.spd;
                         col = color(red(col), green(col), blue(col), alpha(col) - this.spd);

@@ -3,7 +3,7 @@
 */
 
 
-//--コントローラによって変更が加わった場合(二重クリックはハードでカバー)
+//--コントローラによって変更が加わった場合
 void keyTyped(){
     //
     int base = 0;
@@ -14,13 +14,6 @@ void keyTyped(){
         case 'c':
         case 'd':
             base = int('a');
-            sp[0] = new Sparcle(
-                int(random(2)) + 1,6, //動作タイプ、表示タイプ 
-                10, //サイズ
-                10.0, //速度
-                color(#FF0000), //色
-                random(width), random(height), random(0) //座標、角度
-            );
             selidx[0] = key - base;
             break;
         
@@ -55,5 +48,6 @@ void keyTyped(){
     for(int i = 0; i < 4; i++){
         print(selidx[i] + ":");
     }
+    println();
     mix();
 }

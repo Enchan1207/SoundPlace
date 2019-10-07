@@ -43,11 +43,30 @@ class SparcleManager{
             id = getemptyID();
             if (id != -1) {
                 sp[id] = new Sparcle(
-                    4, 3, //動作タイプ、表示タイプ 
-                    20, //サイズ
+                    4, 0, //動作タイプ、表示タイプ 
+                    30, //サイズ
                     random(5,10), //速度
                     #FFFFFF, //色
-                    width / 2 + 30 * cos(radians(i * 30)), height / 2 + 30 * sin(radians(i * 30)), radians(i * 30) //座標、角度
+                    width / 2 + 200 * cos(radians(i * 30)), height / 2 + 200 * sin(radians(i * 30)), //座標
+                    radians(i * 30 + 30) //角度
+                );
+            }
+        }
+    }
+
+    //--これいけるかな rect使って疑似3D
+    public void parseEffect(){
+        int id = 0;
+        for(int i = 0; i < 5; i++){
+            id = getemptyID();
+            if (id != -1) {
+                sp[id] = new Sparcle(
+                    0, 0, //動作タイプ、表示タイプ 
+                    100 - i * 30, //サイズ
+                    10, //速度
+                    #FFFFFF, //色
+                    width / 2, height / 2, //座標
+                    0 //角度
                 );
             }
         }
