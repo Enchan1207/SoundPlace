@@ -77,6 +77,40 @@ class Sparcle {
                         status = -1;
                     }
                     break;
+
+                case 5: //フェードアウトのみ
+                    if (alpha(col) > 0) {
+                        status = 1;
+                        col = color(red(col), green(col), blue(col), alpha(col) - this.spd);
+                    } else {
+                        status = -1;
+                    }
+                    break;
+                
+                case 6: //とにかく端まで移動する
+                    if (x >= 0 && x <= width && y >= 0 && y <= height) {
+                        x += cos(angle) * this.spd;
+                        y += sin(angle) * this.spd;
+                        col = color(red(col), green(col), blue(col), alpha(col) - 2);
+                    } else {
+                        status = -1;
+                    }
+                    break;
+
+                case 7: //跳ね返らせてみる
+                    if (alpha(col) > 0) {
+                        x += cos(angle) * this.spd;
+                        y += sin(angle) * this.spd;
+                        col = color(red(col), green(col), blue(col), alpha(col) - 5);
+                        //--跳ね返り処理
+                        if(x <= 0 || y <= 0) angle += radians(90);
+                        if(x >= width || y >= height) angle -= radians(90);
+
+                    } else {
+                        status = -1;
+                    }
+                    break;
+            
             }
             show();
             return 0;
@@ -170,8 +204,17 @@ class Sparcle {
                     translate(x, y);
                     rotate(angle);
                     //--角度に従って線を描く
-                    strokeWeight(3);
+                    strokeWeight(this.spd / 5);
                     line(-size / 2, 0, size / 2, 0);
+                    popMatrix();
+                    break;
+
+                case 8: //長方形(塗り潰し)
+                    pushMatrix();
+                    noStroke();
+                    fill(col);
+                    translate(x, y);
+                    rect(-size / 2, -height / 2, size, height);
                     popMatrix();
                     break;
                     

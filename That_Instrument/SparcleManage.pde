@@ -54,8 +54,8 @@ class SparcleManager{
         }
     }
 
-    //--これいけるかな rect使って疑似3D
-    public void parseEffect(){
+    //--なんかLivePhotosのアレみたいな
+    public void ellipseEffect(){
         int id = 0;
         for(int i = 0; i < 5; i++){
             id = getemptyID();
@@ -70,6 +70,60 @@ class SparcleManager{
                 );
             }
         }
+    }
+
+    //--後ろでよく光ってるアレ
+    public void laserEffect(){
+        int id = 0;
+        for(int i = 0; i < 5; i++){
+            id = getemptyID();
+            if (id != -1) {
+                sp[id] = new Sparcle(
+                    5, 8, //動作タイプ、表示タイプ 
+                    300, //サイズ
+                    10, //速度
+                    color(0, 0, 128), //色
+                    (width / 4) * i, height / 2, //座標
+                    radians(60) //角度
+                );
+            }
+        }
+    }
+
+    //--バラバラに動くライン
+    public void lineEffect(){
+        int id = 0;
+        for(int i = 0; i < 10; i++){
+            id = getemptyID();
+            if (id != -1) {
+                sp[id] = new Sparcle(
+                    7, 7, //動作タイプ、表示タイプ 
+                    200, //サイズ
+                    40, //速度
+                    #CCCCFF, //色
+                    random(width), random(height), //座標
+                    radians((i % 2) * 180 + int(random(120)) - 60) //角度
+                );
+            }
+        }
+    }
+
+    //--直線
+    public void straightEffect(){
+        int id = 0;
+        for(int i = 0; i < 1; i++){
+            id = getemptyID();
+            if (id != -1) {
+                sp[id] = new Sparcle(
+                    6, 7, //動作タイプ、表示タイプ 
+                    200, //サイズ
+                    random(30) + 10, //速度
+                    #CCCCFF, //色
+                    (i % 2) * width, random(height), //座標
+                    radians((i % 2) * 180) //角度
+                );
+            }
+        }        
     }
 
 

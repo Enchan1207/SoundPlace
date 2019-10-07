@@ -74,7 +74,7 @@ void draw() {
 
     if(mousePressed){
         // manager.radialEffect();
-        manager.parseEffect();
+        manager.lineEffect();
     }
 
     lcnt++;
