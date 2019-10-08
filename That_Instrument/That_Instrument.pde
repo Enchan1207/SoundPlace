@@ -8,6 +8,7 @@ import MidiDevices.*;
 import javax.sound.midi.*;
 import java.io.*;
 import javax.swing.*;
+import processing.opengl.*;
 
 //--映像関連
 SparcleManager manager = new SparcleManager();
@@ -29,12 +30,12 @@ int lcnt = 0;
 void setup() {
     //--
     // size(400, 300, P3D);
-    fullScreen(P3D);
+    fullScreen(OPENGL);
     noCursor();
 
     //--
     devices.scan();
-    devices.open(0);
+    devices.open(1);
 
     //--ミックスする音源ファイルを取得
     File homeDir[] = new File("/Users/ttsof/Desktop/LunaCF/SourceCode/Processing/App/SoundPlace/That_Instrument/musics").listFiles();
@@ -59,22 +60,16 @@ void setup() {
     }
 
     //--ミキサー起動
-    // mix();
-
-
-
-    // manager.beatEffect(); //この命令をミキサーかどこかでできればいいんだが…ん?こんなところにsequencerとaddeventlistenerが…?
+    mix();
 }
 
 void draw() {
     background(0);
 
-
     manager.update();
 
-    if(mousePressed){
-        // manager.radialEffect();
-        manager.lineEffect();
+    if(lcnt % 10 == 0){
+        manager.straightEffect();
     }
 
     lcnt++;

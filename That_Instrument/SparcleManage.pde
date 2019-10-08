@@ -26,7 +26,7 @@ class SparcleManager{
             id = getemptyID();
             if (id != -1) {
                 sp[id] = new Sparcle(
-                    3, 0, //動作タイプ、表示タイプ 
+                    3, 0, //動作タイプ、表示タイプ
                     10, //サイズ
                     10.0, //速度
                     #FFFFFF, //色
@@ -43,7 +43,7 @@ class SparcleManager{
             id = getemptyID();
             if (id != -1) {
                 sp[id] = new Sparcle(
-                    4, 0, //動作タイプ、表示タイプ 
+                    4, 0, //動作タイプ、表示タイプ
                     30, //サイズ
                     random(5,10), //速度
                     #FFFFFF, //色
@@ -61,7 +61,7 @@ class SparcleManager{
             id = getemptyID();
             if (id != -1) {
                 sp[id] = new Sparcle(
-                    0, 0, //動作タイプ、表示タイプ 
+                    0, 0, //動作タイプ、表示タイプ
                     100 - i * 30, //サイズ
                     10, //速度
                     #FFFFFF, //色
@@ -79,12 +79,12 @@ class SparcleManager{
             id = getemptyID();
             if (id != -1) {
                 sp[id] = new Sparcle(
-                    5, 8, //動作タイプ、表示タイプ 
+                    2, 0, //動作タイプ、表示タイプ
                     300, //サイズ
                     10, //速度
-                    color(0, 0, 128), //色
-                    (width / 4) * i, height / 2, //座標
-                    radians(60) //角度
+                    #0000ff, //色
+                    0, height, //座標
+                    radians(15) //角度
                 );
             }
         }
@@ -97,7 +97,7 @@ class SparcleManager{
             id = getemptyID();
             if (id != -1) {
                 sp[id] = new Sparcle(
-                    7, 7, //動作タイプ、表示タイプ 
+                    7, 7, //動作タイプ、表示タイプ
                     200, //サイズ
                     40, //速度
                     #CCCCFF, //色
@@ -111,11 +111,11 @@ class SparcleManager{
     //--直線
     public void straightEffect(){
         int id = 0;
-        for(int i = 0; i < 1; i++){
+        for(int i = 0; i < 10; i++){
             id = getemptyID();
             if (id != -1) {
                 sp[id] = new Sparcle(
-                    6, 7, //動作タイプ、表示タイプ 
+                    6, 7, //動作タイプ、表示タイプ
                     200, //サイズ
                     random(30) + 10, //速度
                     #CCCCFF, //色
@@ -123,9 +123,8 @@ class SparcleManager{
                     radians((i % 2) * 180) //角度
                 );
             }
-        }        
+        }
     }
-
 
     /*
      *  スパークル制御

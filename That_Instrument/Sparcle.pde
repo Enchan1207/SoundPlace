@@ -101,11 +101,10 @@ class Sparcle {
                     if (alpha(col) > 0) {
                         x += cos(angle) * this.spd;
                         y += sin(angle) * this.spd;
-                        col = color(red(col), green(col), blue(col), alpha(col) - 5);
+                        col = color(red(col), green(col), blue(col), alpha(col) - 10);
                         //--跳ね返り処理
                         if(x <= 0 || y <= 0) angle += radians(90);
                         if(x >= width || y >= height) angle -= radians(90);
-
                     } else {
                         status = -1;
                     }
@@ -204,17 +203,18 @@ class Sparcle {
                     translate(x, y);
                     rotate(angle);
                     //--角度に従って線を描く
-                    strokeWeight(this.spd / 5);
+                    strokeWeight(3);
                     line(-size / 2, 0, size / 2, 0);
                     popMatrix();
                     break;
 
                 case 8: //長方形(塗り潰し)
                     pushMatrix();
+                    translate(x, y);
                     noStroke();
                     fill(col);
-                    translate(x, y);
                     rect(-size / 2, -height / 2, size, height);
+                    noFill();
                     popMatrix();
                     break;
                     
