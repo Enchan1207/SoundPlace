@@ -19,7 +19,7 @@ class SparcleManager{
      * エフェクトコンポーネント
     */
 
-    //--ビート用エフェクト
+    //--ビート
     public void beatEffect(){
         int id = 0;
         for(int i = 0; i < 2; i++){
@@ -27,9 +27,9 @@ class SparcleManager{
             if (id != -1) {
                 sp[id] = new Sparcle(
                     3, 0, //動作タイプ、表示タイプ
-                    10, //サイズ
+                    300, //サイズ
                     10.0, //速度
-                    #FFFFFF, //色
+                    #FF00FF, //色
                     width * i, height, 0 //座標、角度
                 );
             }
@@ -62,29 +62,11 @@ class SparcleManager{
             if (id != -1) {
                 sp[id] = new Sparcle(
                     0, 0, //動作タイプ、表示タイプ
-                    100 - i * 30, //サイズ
+                    1300 - i * 300, //サイズ
                     10, //速度
-                    #FFFFFF, //色
+                    #FFCC00, //色
                     width / 2, height / 2, //座標
                     0 //角度
-                );
-            }
-        }
-    }
-
-    //--後ろでよく光ってるアレ
-    public void laserEffect(){
-        int id = 0;
-        for(int i = 0; i < 5; i++){
-            id = getemptyID();
-            if (id != -1) {
-                sp[id] = new Sparcle(
-                    2, 0, //動作タイプ、表示タイプ
-                    300, //サイズ
-                    10, //速度
-                    #0000ff, //色
-                    0, height, //座標
-                    radians(15) //角度
                 );
             }
         }
@@ -100,7 +82,7 @@ class SparcleManager{
                     7, 7, //動作タイプ、表示タイプ
                     200, //サイズ
                     40, //速度
-                    #CCCCFF, //色
+                    #CCFF00, //色
                     random(width), random(height), //座標
                     radians((i % 2) * 180 + int(random(120)) - 60) //角度
                 );
@@ -118,12 +100,84 @@ class SparcleManager{
                     6, 7, //動作タイプ、表示タイプ
                     200, //サイズ
                     random(30) + 10, //速度
-                    #CCCCFF, //色
+                    #CCFF00, //色
                     (i % 2) * width, random(height), //座標
                     radians((i % 2) * 180) //角度
                 );
             }
         }
+    }
+
+    //--六角形それっぽい位置に
+    public void hexaEffect(){
+        int id = 0;
+        for(int i = 0; i < 4; i++){
+            id = getemptyID();
+            if (id != -1) {
+                sp[id] = new Sparcle(
+                    8, 3, //動作タイプ、表示タイプ
+                    300, //サイズ
+                    10, //速度
+                    #00CC00, //色
+                    500 + i * 400, height, //座標
+                    0 //角度
+                );
+            }
+        }
+        for(int i = 0; i < 4; i++){
+            id = getemptyID();
+            if (id != -1) {
+                sp[id] = new Sparcle(
+                    8, 3, //動作タイプ、表示タイプ
+                    300, //サイズ
+                    10, //速度
+                    #00CC00, //色
+                    width - 500 - i * 400, 1, //座標
+                    radians(180) //角度
+                );
+            }
+        }
+    }
+
+    //--収束する立方体
+    public void rollboxEffect(){
+        int id = 0;
+        //--細かいスパークル
+        for(int i = 0; i < 10; i++){
+            id = getemptyID();
+            if (id != -1) {
+                sp[id] = new Sparcle(
+                    4, 6, //動作タイプ、表示タイプ
+                    200, //サイズ
+                    10, //速度
+                    #00CCFF, //色
+                    width / 2 + 1000 * cos(radians(i * 36)), height / 2 + 1000 * sin(radians(i * 36)), //座標
+                    radians(i * 36 + 210) //角度
+                );
+            }
+        }
+    }
+
+    //--バブル
+    public void bubbleEffect(){
+        int id = 0;
+        //--細かいスパークル
+        for(int i = 0; i < 30; i++){
+            id = getemptyID();
+            if (id != -1) {
+                float opt[] = {3,5};
+                int size = int(random(40) + 10);
+                sp[id] = new Sparcle(
+                    9, 0, //動作タイプ、表示タイプ
+                    size, //サイズ
+                    (60 - size) / 2, //速度
+                    #00FFCC, //色
+                    int(random(width)), height + 50,//座標
+                    radians(90), //角度
+                    opt //アディショナルパラメータ
+                );
+            }
+        }        
     }
 
     /*

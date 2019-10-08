@@ -33,9 +33,10 @@ void setup() {
     fullScreen(OPENGL);
     noCursor();
 
+
     //--
     devices.scan();
-    devices.open(1);
+    devices.open(0);
 
     //--ミックスする音源ファイルを取得
     File homeDir[] = new File("/Users/ttsof/Desktop/LunaCF/SourceCode/Processing/App/SoundPlace/That_Instrument/musics").listFiles();
@@ -61,6 +62,7 @@ void setup() {
 
     //--ミキサー起動
     mix();
+    
 }
 
 void draw() {
@@ -68,8 +70,13 @@ void draw() {
 
     manager.update();
 
-    if(lcnt % 10 == 0){
+    if(lcnt%10 == 0){
         manager.straightEffect();
+        manager.beatEffect();
+    }
+
+    if(lcnt % 50 == 0){
+        
     }
 
     lcnt++;

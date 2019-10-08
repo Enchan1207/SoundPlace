@@ -12,8 +12,21 @@ class Sparcle {
     float x, y; //座標
     int status; //動作状態(-1:未使用またはアニメーション終了)
     float angle; //角度
+    float opt[]; //オプショナルパラメータ
 
     //--スパークル生成
+    Sparcle(int mtype, int stype, int size, float spd, color col, float x, float y, float angle, float opt[]) {
+        this.mtype = mtype;
+        this.stype = stype;
+        this.size = size;
+        this.spd = spd;
+        this.col = col;
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+        this.opt = opt;
+    }
+
     Sparcle(int mtype, int stype, int size, float spd, color col, float x, float y, float angle) {
         this.mtype = mtype;
         this.stype = stype;
@@ -72,7 +85,7 @@ class Sparcle {
                     if (alpha(col) > 0) {
                         x += cos(angle) * this.spd;
                         y += sin(angle) * this.spd;
-                        col = color(red(col), green(col), blue(col), alpha(col) - this.spd);
+                        col = color(red(col), green(col), blue(col), alpha(col) - this.spd / 2);
                     } else {
                         status = -1;
                     }
@@ -109,7 +122,26 @@ class Sparcle {
                         status = -1;
                     }
                     break;
-            
+
+                case 8: //alpha(sin)でうにょんうにょん+移動
+                    if (x >= 0 && x <= width && y >= 0 && y <= height) {
+                        x += cos(angle) * this.spd;
+                        y += sin(angle) * this.spd;
+                        col = color(red(col), green(col), blue(col), 128 * sin(radians(sqrt(x * x  + y * y)) + 128));
+                    } else {
+                        status = -1;
+                    }
+                    break;
+
+                case 9: //sinの軌跡+フェードアウト
+                    if (alpha(col) > 0) {
+                        x += cos(radians(y + int(random(20) - 10))) * opt[0];
+                        y -= this.spd;
+                        col = color(red(col), green(col), blue(col), alpha(col) - opt[1]);
+                    } else {
+                        status = -1;
+                    }
+                    break;
             }
             show();
             return 0;

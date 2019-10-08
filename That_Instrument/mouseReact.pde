@@ -3,5 +3,5 @@
 */
 
 void mousePressed(){
-    manager.laserEffect();
+    manager.bubbleEffect();
 }
