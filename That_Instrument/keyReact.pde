@@ -45,9 +45,26 @@ void keyTyped(){
             break;
     }
 
-    for(int i = 0; i < 4; i++){
-        print(selidx[i] + ":");
+    //--変更エフェクト
+    int efcID = 0;
+    switch (base) {
+        case 'a':
+            efcID = 0;
+            break;
+
+        case 'e':
+            efcID = 1;
+            break;
+
+        case 'i':
+            efcID = 2;
+            break;
+
+        case 'm':
+            efcID = 3;
+            break;
     }
-    println();
+    manager.ellipseEffect(efColor[selidx[efcID]]);
+    
     mix();
 }

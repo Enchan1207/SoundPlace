@@ -20,6 +20,7 @@ SeqMixer mixer = new SeqMixer(Sequence.PPQ, 480);
 Sequence selected[] = new Sequence[4];
 Sequence sequences[][] = new Sequence[4][4];
 int selidx[] = {0, 3, 1, 3}; //各チャンネルで選択されている音源番号
+color efColor[] = {#CC0000, #00CC00, #0000CC, #CCCC00}; //エフェクトカラー
 int insts[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}; //楽器番号/ch
 int tempo = 128; //テンポ
 
@@ -32,7 +33,6 @@ void setup() {
     // size(400, 300, P3D);
     fullScreen(OPENGL);
     noCursor();
-
 
     //--
     devices.scan();
@@ -70,14 +70,14 @@ void draw() {
 
     manager.update();
 
+    /*
+     * 状態にかかわらず表示されるエフェクト
+    */
     if(lcnt%10 == 0){
-        manager.straightEffect();
-        manager.beatEffect();
+        manager.straightEffect(#222222);
     }
 
-    if(lcnt % 50 == 0){
-        
-    }
+
 
     lcnt++;
 }
