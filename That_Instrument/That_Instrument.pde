@@ -64,6 +64,9 @@ void setup() {
         sequencer = MidiSystem.getSequencer(false);
         sequencer.open();
         sequencer.getTransmitter().setReceiver(devices.getReceiver());
+        //--受け取るコントロール番号を指定してリスナ追加
+        int ctrls[] = {7};
+        sequencer.addControllerEventListener(new CtrlchangeListener(sequencer), ctrls);
     } catch (Exception e) {
         e.printStackTrace();
     }
