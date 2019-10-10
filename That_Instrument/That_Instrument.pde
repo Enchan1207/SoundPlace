@@ -19,7 +19,6 @@ SeqMixer mixer = new SeqMixer(Sequence.PPQ, 480);
 Sequence selected[] = new Sequence[4];
 Sequence sequences[][] = new Sequence[4][4];
 int tempo = 128; //テンポ
-long current = 0; //現在位置
 int selidx[] = {0, 3, 1, 3}; //各チャンネルで選択されている音源番号
 color efColor[] = {#CC0000, #00CC00, #0000CC, #CCCC00}; //エフェクトカラー
 
@@ -86,19 +85,6 @@ void draw() {
         manager.straightEffect(#444444);
     }
 
-    /*
-     * miditickデータのカーソル位置のイベントを取得
-    */
-
-    if (current >= midiTickdata[3][selidx[3]][tickCursor[3]]){
-        manager.beatEffect(#FFCC00);
-        tickCursor[3]++;
-        if(midiTickdata[3][selidx[3]].length <= tickCursor[3]){
-            tickCursor[3] = 0;
-        }
-    }
-
-    current = sequencer.getTickPosition();
     lcnt++;
 }
 
@@ -116,11 +102,11 @@ void mix(){
     }
     mixer.setInsts(insts);
 
+    long current = 0; //現在位置
     if(sequencer.isRunning()){
         current = sequencer.getTickPosition();
     }
     try {
-        tickCursor[3] = 0;
         sequencer.stop();
         sequencer.setSequence(mixer.getSequence());
         sequencer.setTickPosition(current);
