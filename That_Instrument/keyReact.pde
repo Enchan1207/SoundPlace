@@ -7,6 +7,7 @@
 void keyTyped(){
     //
     int base = 0;
+    int buselidx[]  = selidx.clone(); //まず退避
     switch (key) {
         //--A～D 上一列目
         case 'a':
@@ -45,26 +46,37 @@ void keyTyped(){
             break;
     }
 
-    //--変更エフェクト
-    int efcID = 0;
-    switch (base) {
-        case 'a':
-            efcID = 0;
-            break;
-
-        case 'e':
-            efcID = 1;
-            break;
-
-        case 'i':
-            efcID = 2;
-            break;
-
-        case 'm':
-            efcID = 3;
-            break;
+    //--変更は加わっているか?
+    boolean rst = false;
+    for(int i = 0; i < selidx.length; i++){
+        if(selidx[i] != buselidx[i]){
+            rst = true;
+        }
     }
-    manager.ellipseEffect(efColor[selidx[efcID]]);
-    
-    mix();
+
+    //--スイッチによって選択状態が変化したらellipseEffectを発生させる
+    if(rst){
+        int efcID = 0;
+        switch (base) {
+            case 'a':
+                efcID = 0;
+                break;
+
+            case 'e':
+                efcID = 1;
+                break;
+
+            case 'i':
+                efcID = 2;
+                break;
+
+            case 'm':
+                efcID = 3;
+                break;
+        }
+        manager.ellipseEffect(efColor[selidx[efcID]]);
+        
+        mix();
+    }
+
 }

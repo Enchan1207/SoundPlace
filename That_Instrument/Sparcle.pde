@@ -142,6 +142,22 @@ class Sparcle {
                         status = -1;
                     }
                     break;
+                
+                case 10: //花火風に
+                    if (alpha(col) > 0) {
+                        x += this.spd * cos(angle);
+                        y += this.spd * sin(angle);
+                        //--中心からの距離を計算
+                        float diff = sqrt(pow(x - width / 2, 2) + pow(y - height / 2, 2)) / 20;
+                        col = color(red(col), green(col) - diff, blue(col) - diff, alpha(col) - 3);
+                    } else {
+                        status = -1;
+                    }
+                    break;
+
+
+
+
             }
             show();
             return 0;

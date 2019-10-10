@@ -180,6 +180,27 @@ class SparcleManager{
         }        
     }
 
+    //--花火
+    public void fireEffect(color col){
+        int id = 0;
+        for(int j = 0; j < 5; j++){
+            for(int i = 0; i < 30; i++){
+                id = getemptyID();
+                if (id != -1) {
+                    int iniDif = j * 100; //初期位相
+                    sp[id] = new Sparcle(
+                        10, 7, //動作タイプ、表示タイプ
+                        (5 - j) * 20, //サイズ
+                        10, //速度
+                        col, //色
+                        width / 2 + iniDif * cos(radians(i * 12)), height / 2 + iniDif * sin(radians(i * 12)),//座標
+                        radians(i * 12) //角度
+                    );
+                }
+            }  
+        }
+    }
+
     /*
      *  スパークル制御
     */
