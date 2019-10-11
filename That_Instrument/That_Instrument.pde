@@ -19,7 +19,7 @@ SeqMixer mixer = new SeqMixer(Sequence.PPQ, 480);
 Sequence selected[] = new Sequence[4];
 Sequence sequences[][] = new Sequence[4][4];
 int tempo = 128; //テンポ
-int selidx[] = {0, 3, 1, 3}; //各チャンネルで選択されている音源番号
+int selidx[] = {0, 0, 0, 0}; //各チャンネルで選択されている音源番号
 color efColor[] = {#CC0000, #00CC00, #0000CC, #CCCC00}; //エフェクトカラー
 
 //楽器番号はちょっと長くなるので別で記述
@@ -94,6 +94,7 @@ void draw() {
 
 //--選択状態によってミックス
 void mix(){
+    mixer = new SeqMixer(Sequence.PPQ, 480);
     for(int i = 0; i < 4; i++){
         mixer.setSequence(i, sequences[i][selidx[i]]);
     }

@@ -15,7 +15,6 @@ public class CtrlchangeListener extends Thread implements ControllerEventListene
     @Override
     public void controlChange(ShortMessage event) {
         int part = event.getData1() - 110;
-        println(event.getTick());
         if(seqStat == 0){
             switch (part) {
                 case 0:
