@@ -34,6 +34,7 @@ int instlist[][] = {
 
 //--システム
 int lcnt = 0;
+int seqStat = 0; //シーケンサの状態 ファイル切り替え時1になりエフェクトが無効化される
 
 //--
 void setup() {
@@ -65,7 +66,7 @@ void setup() {
         sequencer.open();
         sequencer.getTransmitter().setReceiver(devices.getReceiver());
         //--受け取るコントロール番号を指定してリスナ追加
-        int ctrls[] = {7};
+        int ctrls[] = {110, 111, 112, 113};
         sequencer.addControllerEventListener(new CtrlchangeListener(sequencer), ctrls);
     } catch (Exception e) {
         e.printStackTrace();
@@ -110,6 +111,7 @@ void mix(){
         current = sequencer.getTickPosition();
     }
     try {
+        seqStat = 1;
         sequencer.stop();
         sequencer.setSequence(mixer.getSequence());
         sequencer.setTickPosition(current);
@@ -117,6 +119,7 @@ void mix(){
         sequencer.setLoopEndPoint(sequencer.getTickLength());
         sequencer.setLoopCount(-1);
         sequencer.start();
+        seqStat = 0;
     } catch (Exception e) {
         e.printStackTrace();
     }
