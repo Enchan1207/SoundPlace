@@ -3,7 +3,6 @@
 */
 
 import midiMixer.*;
-import MidiDevices.*;
 import javax.sound.midi.*;
 import java.io.*;
 import javax.swing.*;
@@ -13,7 +12,6 @@ import processing.opengl.*;
 SparcleManager manager = new SparcleManager();
 
 //--midi関連
-MidiDevices  devices = new MidiDevices();
 Sequencer sequencer;
 SeqMixer mixer = new SeqMixer(Sequence.PPQ, 480);
 Sequence selected[] = new Sequence[4];
@@ -43,10 +41,6 @@ void setup() {
     fullScreen(OPENGL);
     noCursor();
 
-    //--
-    devices.scan();
-    devices.open(0);
-
     //--ミックスする音源ファイルを取得
     File homeDir[] = new File("/Users/ttsof/Desktop/LunaCF/SourceCode/Processing/App/SoundPlace/That_Instrument/musics").listFiles();
     for(int i = 0; i < 4; i++){
@@ -62,9 +56,8 @@ void setup() {
 
     //--シーケンサ準備
     try {
-        sequencer = MidiSystem.getSequencer(false);
+        sequencer = MidiSystem.getSequencer(true);
         sequencer.open();
-        sequencer.getTransmitter().setReceiver(devices.getReceiver());
         //--受け取るコントロール番号を指定してリスナ追加
         int ctrls[] = {110, 111, 112, 113};
         sequencer.addControllerEventListener(new CtrlchangeListener(sequencer), ctrls);
