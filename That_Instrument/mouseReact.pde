@@ -14,16 +14,16 @@
 // manager.fireEffect(col);
 
 void mouseClicked(){
-    color col = #FFCC00;
+    // color col = #FFCC00;
 
 
-    try {
-        MidiSystem.write(sequencer.getSequence(), 1, new File("/users/ttsof/desktop/sound.mid"));    
-    }catch (Exception e){
+    // try {
+    //     MidiSystem.write(sequencer.getSequence(), 1, new File("/users/ttsof/desktop/sound.mid"));    
+    // }catch (Exception e){
 
-    }
+    // }
     
-    exit();
+    // exit();
     
 
 }
