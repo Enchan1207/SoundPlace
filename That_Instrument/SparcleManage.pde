@@ -5,7 +5,7 @@
 class SparcleManager{
     //--
     static final int SPARCLE_MAX = 4096; //スパークル最大表示数
-    private Sparcle sp[] = new Sparcle[SPARCLE_MAX];
+    Sparcle sp[] = new Sparcle[SPARCLE_MAX];
 
     //--スパークル初期化
     SparcleManager(){
@@ -198,6 +198,25 @@ class SparcleManager{
                     );
                 }
             }  
+        }
+    }
+
+    //--なんか呼応する円みたいな
+    public void toneEffect(color col){
+        int id = 0;
+
+        //--まず真ん中の位置を決めてデカい円を一つ
+        float x = random(width), y = random(height);
+        id = getemptyID();
+        if (id != -1) {
+            sp[id] = new Sparcle(
+                0, 0, //動作タイプ、表示タイプ
+                200, //サイズ
+                8, //速度
+                col, //色
+                x, y, //座標
+                0 //角度
+            );
         }
     }
 
