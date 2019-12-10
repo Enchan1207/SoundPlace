@@ -201,12 +201,12 @@ class SparcleManager{
         }
     }
 
-    //--なんか呼応する円みたいな
+    //--ellipseEffectの小型版 音に合わせる用
     public void toneEffect(color col){
         int id = 0;
 
         //--まず真ん中の位置を決めてデカい円を一つ
-        float x = random(width), y = random(height);
+        float x = random(width - 100) + 50, y = random(height - 100) + 50; //端から50px以内には置かない
         id = getemptyID();
         if (id != -1) {
             sp[id] = new Sparcle(
@@ -218,6 +218,45 @@ class SparcleManager{
                 0 //角度
             );
         }
+    }
+
+    //--固定IDで背景に選択状態を表示
+    public void bgEffect(){
+        int id = 0;
+        for(int i = 0; i < 4; i++){
+            id = getemptyID();
+            float opt[] = {i};
+            if(id != -1){
+                sp[id] = new Sparcle(
+                    11, 8, //動作タイプ、表示タイプ
+                    width / 4, //サイズ
+                    5, //速度
+                    0, //色
+                    i * (width / 4), 0, //座標
+                    0, //角度
+                    opt //オプショナルパラメータ
+                );
+            }
+        }
+    }
+
+    //--3Dで手前から奥に六角形を飛ばしてみるよ
+    public void hexa3DEffect(color col){
+        int id = 0;
+        for(int i = 0; i < 10; i++){
+            id = getemptyID();
+            if (id != -1) {
+                sp[id] = new Sparcle(
+                    12, 9, //動作タイプ、表示タイプ
+                    100, //サイズ
+                    20, //速度
+                    col, //色
+                    i * 200, height - 300, 500 + (i % 2) * 400,//座標
+                    radians(90) //角度
+                );
+            }
+        }
+
     }
 
     /*

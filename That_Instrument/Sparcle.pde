@@ -9,12 +9,25 @@ class Sparcle {
     int size; //サイズ
     float spd; //速度
     color col; //色
-    float x, y; //座標
+    float x = 0, y = 0, z = 0; //座標
     int status; //動作状態(-1:未使用またはアニメーション終了)
     float angle; //角度
     float opt[]; //オプショナルパラメータ
 
     //--スパークル生成
+    Sparcle(int mtype, int stype, int size, float spd, color col, float x, float y, float z, float angle, float opt[]) {
+        this.mtype = mtype;
+        this.stype = stype;
+        this.size = size;
+        this.spd = spd;
+        this.col = col;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.angle = angle;
+        this.opt = opt;
+    }
+
     Sparcle(int mtype, int stype, int size, float spd, color col, float x, float y, float angle, float opt[]) {
         this.mtype = mtype;
         this.stype = stype;
@@ -25,6 +38,18 @@ class Sparcle {
         this.y = y;
         this.angle = angle;
         this.opt = opt;
+    }
+
+    Sparcle(int mtype, int stype, int size, float spd, color col, float x, float y, float z, float angle) {
+        this.mtype = mtype;
+        this.stype = stype;
+        this.size = size;
+        this.spd = spd;
+        this.col = col;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.angle = angle;
     }
 
     Sparcle(int mtype, int stype, int size, float spd, color col, float x, float y, float angle) {
@@ -155,8 +180,21 @@ class Sparcle {
                     }
                     break;
 
+                case 11: //sinフェード(消えないので実質ID占有 使いすぎないように)
+                    y += spd;
+                    if(y > 360) y = 0;
+                    col = efColor[selidx[int(opt[0])]];
+                    col = color(red(col), green(col), blue(col), 48 * sin(radians(y)) + 48);
+                    break;
 
-
+                case 12: //奥に飛ばす(3D)
+                    if (z > -1000) {
+                        z -= this.spd;
+                        col = color(red(col), green(col), blue(col), alpha(col) - this.spd);
+                    } else {
+                        status = -1;
+                    }
+                    break;
 
             }
             show();
@@ -248,8 +286,8 @@ class Sparcle {
 
                 case 7: //長さ指定
                     pushMatrix();
-                    translate(x, y);
-                    rotate(angle);
+                    translate(x, y, z);
+                    rotateY(angle);
                     //--角度に従って線を描く
                     strokeWeight(3);
                     line(-size / 2, 0, size / 2, 0);
@@ -258,14 +296,30 @@ class Sparcle {
 
                 case 8: //長方形(塗り潰し)
                     pushMatrix();
-                    translate(x, y);
+                    translate(x, 0);
                     noStroke();
                     fill(col);
-                    rect(-size / 2, -height / 2, size, height);
+                    rect(0, 0, size, height);
                     noFill();
                     popMatrix();
                     break;
-                    
+
+                case 9: //六角形(3D)
+                    pushMatrix();
+                    translate(x, y, z);
+                    rotateX(angle);
+                    //--各頂点の座標を求める
+                    beginShape();
+                    vertex(-size, 0);
+                    vertex(-size * cos(radians(60)), size * sin(radians(60)));
+                    vertex(size * cos(radians(60)), size * sin(radians(60)));
+                    vertex(size, 0);
+                    vertex(size * cos(radians(60)), -size * sin(radians(60)));
+                    vertex(-size * cos(radians(60)), -size * sin(radians(60)));
+                    endShape(CLOSE);
+                    popMatrix();
+                    break;
+
             }
         }
     }
