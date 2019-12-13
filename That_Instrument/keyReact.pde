@@ -54,27 +54,16 @@ void keyTyped(){
         }
     }
 
-    //--スイッチによって選択状態が変化したらellipseEffectを発生させる
+    //--スイッチによって選択状態が変化したらスパークルを発生させる
     if(rst){
+        //--
         int efcID = 0;
-        switch (base) {
-            case 'a':
-                efcID = 0;
-                break;
-
-            case 'e':
-                efcID = 1;
-                break;
-
-            case 'i':
-                efcID = 2;
-                break;
-
-            case 'm':
-                efcID = 3;
-                break;
+        int bases[] = {'a', 'e', 'i', 'm'};
+        for (int i = 0; i < 4; i++) {
+            if(base == bases[i]) efcID = i;
         }
-        manager.ellipseEffect(efColor[selidx[efcID]]);
+
+        manager.box3DEffect(efColor[efcID]);
         
         mix();
     }

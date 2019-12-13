@@ -188,10 +188,28 @@ class Sparcle {
                     break;
 
                 case 12: //奥に飛ばす(3D)
-                    if (z > -1000) {
+                    if (z > -3000) {
                         z -= this.spd;
                         col = color(red(col), green(col), blue(col), alpha(col) - this.spd);
                     } else {
+                        status = -1;
+                    }
+                    break;
+                case 13: //回転しながら手前に飛んでくる(3D)
+                    if(x < 2000){
+                        x += this.spd;
+                        angle += radians(5);
+                        col = color(red(col), green(col), blue(col), alpha(col) + 5);
+                    }else{
+                        status = -1;
+                    }
+                    break;
+
+                case 14: //まっすぐ手前に飛んでくる(3D)
+                    if(z < 1000){
+                        z += this.spd;
+                        col = color(red(col), green(col), blue(col), alpha(col) + 2);
+                    }else{
                         status = -1;
                     }
                     break;
@@ -255,8 +273,9 @@ class Sparcle {
                     //--不等号
                 case 4: //不等号
                     pushMatrix();
-                    translate(x, y);
-                    rotate(angle);
+                    translate(x,y,z);
+                    rotateY(angle);
+                    strokeWeight(5);
                     //--各頂点の座標を求める
                     beginShape();
                     vertex(-size * cos(radians(45)), size * sin(radians(45)));
@@ -277,7 +296,8 @@ class Sparcle {
                     //--立方体
                 case 6: //立方体
                     pushMatrix();
-                    translate(x, y);
+                    strokeWeight(2);
+                    translate(x, y, z);
                     rotateZ(-angle);
                     rotateX(angle);
                     box(size);
@@ -320,6 +340,14 @@ class Sparcle {
                     popMatrix();
                     break;
 
+                case 10: //直方体(optで寸法指定)
+                    pushMatrix();
+                    translate(x, y, z);
+                    noStroke();
+                    fill(col);
+                    box(opt[0], opt[1], opt[2]);
+                    popMatrix();
+                    break;
             }
         }
     }

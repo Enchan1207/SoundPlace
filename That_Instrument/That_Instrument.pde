@@ -18,7 +18,12 @@ Sequence selected[] = new Sequence[4];
 Sequence sequences[][] = new Sequence[4][4];
 int tempo = 128; //テンポ
 int selidx[] = {3, 0, 2, 1}; //各チャンネルで選択されている音源番号
-color efColor[] = {#CC0000, #00CC00, #0100CC, #CCCC00}; //エフェクトカラー
+color efColor[] = {
+    color(255, 119, 119), 
+    color(119, 255, 119), 
+    color(119, 119, 255), 
+    color(119, 255, 255)
+}; //エフェクトカラー
 
 //楽器番号はちょっと長くなるので別で記述
 //番号の特定は instlist[i][selidx[i]] でぶん回せばよい
@@ -29,15 +34,15 @@ int instlist[][] = {
     { 90, 31, 15,  1} //音源パターン4
 };
 
-
 //--システム
 int lcnt = 0;
 int seqStat = 0; //シーケンサの状態 ファイル切り替え時1になりエフェクトが無効化される
+int mils = 0, mils_ = 0; //コントローラが操作されるインターバル
 
 //--
 void setup() {
-    //--
-    // size(400, 300, P3D);
+
+    //--描画準備
     fullScreen(OPENGL);
     noCursor();
 
@@ -60,7 +65,7 @@ void setup() {
         sequencer.open();
         //--受け取るコントロール番号を指定してリスナ追加
         int ctrls[] = {110, 111, 112, 113};
-        sequencer.addControllerEventListener(new CtrlchangeListener(sequencer), ctrls);
+        sequencer.addControllerEventListener(new CtrlchangeListener(sequencer, manager), ctrls);
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -71,15 +76,16 @@ void setup() {
 }
 
 void draw() {
-    background(0);
-
+    background(0x00);
+    pointLight(255, 255, 255, width, 0, 400);
+    camera(
+        width, 0, 200, //視点位置
+        1154, 394, -500, //注視方向
+        0, 1, 0 //カメラの向き
+    ); 
     manager.update();
-
-    /*
-     * 状態にかかわらず表示されるエフェクト
-    */
     if(lcnt%10 == 0){
-        manager.straightEffect(#444444);
+        
     }
 
     lcnt++;
@@ -117,4 +123,8 @@ void mix(){
     } catch (Exception e) {
         e.printStackTrace();
     }
+}
+
+void mousePressed(){
+    manager.arrowEffect(#FFFFFF);
 }

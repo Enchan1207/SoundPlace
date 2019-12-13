@@ -4,7 +4,7 @@
 
 class SparcleManager{
     //--
-    static final int SPARCLE_MAX = 4096; //スパークル最大表示数
+    static final int SPARCLE_MAX = 512; //スパークル最大表示数
     Sparcle sp[] = new Sparcle[SPARCLE_MAX];
 
     //--スパークル初期化
@@ -259,9 +259,73 @@ class SparcleManager{
 
     }
 
+    //--なんか立方体前に飛ばす
+    public void box3DEffect(color col){
+        col = color(red(col), green(col), blue(col), 0);
+        int id = 0;
+        int size = int(random(130) + 130);
+        for(int i = 0; i < 100; i++){
+            id = getemptyID();
+            if (id != -1) {
+                sp[id] = new Sparcle(
+                    13, 6, //動作タイプ、表示タイプ
+                    size, //サイズ
+                    size / 5, //速度
+                    col, //色
+                    // random(width*2), random(height*2), -900 + (100 - random(200)),//座標
+                    random(-2000,2000), random(-height, height), random(-2000, 2000),//座標
+                    radians(random(360)) //角度
+                );
+            }
+        }
+    }
+
+    //--なんかノーツみたいなの飛んでくる
+    public void note3DEffect(color col, int idx){
+        col = color(red(col), green(col), blue(col), 0);
+        int id = 0;
+        float size[] = {90, 90, 500};
+        id = getemptyID();
+        if (id != -1) {
+            sp[id] = new Sparcle(
+                14, 10, //動作タイプ、表示タイプ
+                30, //サイズ
+                70, //速度
+                col, //色
+                (width / 4) * idx + width / 8, height - 100, -4000,//座標
+                0, //角度
+                size //タイプ10はサイズ値を読まないのでここで指定
+            );
+        }
+    }
+
+    //--なんか不等号いっぱい
+    public void arrowEffect(color col){
+        int id = 0;
+        id = getemptyID();
+        if (id != -1) {
+            sp[id] = new Sparcle(
+                12, 4, //動作タイプ、表示タイプ
+                200, //サイズ
+                5, //速度
+                col, //色
+                mouseX,mouseY,0,//座標
+                radians(90) //角度
+            );
+        }
+    }
+
     /*
      *  スパークル制御
     */
+
+    //--任意Sparcleインスタンスを生成
+    public void newSparcle(Sparcle sp_){
+        int id = getemptyID();
+        if (id != -1) {
+            sp[id] = sp_;
+        }
+    }
 
     //--各スパークルを更新
     public void update(){
