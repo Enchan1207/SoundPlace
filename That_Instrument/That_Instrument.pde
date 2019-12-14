@@ -120,7 +120,6 @@ void mix(){
         }
     }
     mixer.setInsts(insts);
-    mixer.setVolumes(volumes);
 
     long current = 0; //現在位置
     if(sequencer.isRunning()){
