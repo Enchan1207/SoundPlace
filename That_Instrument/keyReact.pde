@@ -57,7 +57,7 @@ void keyTyped(){
     //--スイッチによって選択状態が変化したらスパークルを発生させる
     if(rst){
         //--
-        int efcID = 0;
+        efcID = 0;
         int bases[] = {'a', 'e', 'i', 'm'};
         for (int i = 0; i < 4; i++) {
             if(base == bases[i]) efcID = i;

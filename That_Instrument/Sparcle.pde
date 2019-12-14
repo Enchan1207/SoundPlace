@@ -188,9 +188,10 @@ class Sparcle {
                     break;
 
                 case 12: //奥に飛ばす(3D)
+
                     if (z > -3000) {
                         z -= this.spd;
-                        col = color(red(col), green(col), blue(col), alpha(col) - this.spd);
+                        col = color(red(col), green(col), blue(col), alpha(col) - 1);
                     } else {
                         status = -1;
                     }
@@ -226,6 +227,7 @@ class Sparcle {
     void show() {
         stroke(col);
         strokeWeight(size / 15);
+        strokeCap(PROJECT);
         noFill();
         if (status != -1) {
             switch(stype) {
@@ -256,8 +258,8 @@ class Sparcle {
                     break;
                 case 3: //六角形
                     pushMatrix();
-                    translate(x, y);
-                    rotate(angle);
+                    translate(x, y, z);
+                    rotateY(angle);
                     //--各頂点の座標を求める
                     beginShape();
                     vertex(-size, 0);
@@ -272,10 +274,15 @@ class Sparcle {
 
                     //--不等号
                 case 4: //不等号
+                    if(sin(radians(abs(z) / 5)) > 0.8){
+                        noStroke();
+                    }else{
+                        stroke(col);
+                    }
                     pushMatrix();
                     translate(x,y,z);
                     rotateY(angle);
-                    strokeWeight(5);
+                    strokeWeight(10);
                     //--各頂点の座標を求める
                     beginShape();
                     vertex(-size * cos(radians(45)), size * sin(radians(45)));

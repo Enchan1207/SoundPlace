@@ -4,7 +4,7 @@
 
 class SparcleManager{
     //--
-    static final int SPARCLE_MAX = 512; //スパークル最大表示数
+    static final int SPARCLE_MAX = 1024; //スパークル最大表示数
     Sparcle sp[] = new Sparcle[SPARCLE_MAX];
 
     //--スパークル初期化
@@ -301,18 +301,55 @@ class SparcleManager{
 
     //--なんか不等号いっぱい
     public void arrowEffect(color col){
-        int id = 0;
-        id = getemptyID();
-        if (id != -1) {
-            sp[id] = new Sparcle(
-                12, 4, //動作タイプ、表示タイプ
-                200, //サイズ
-                5, //速度
-                col, //色
-                mouseX,mouseY,0,//座標
-                radians(90) //角度
-            );
+        int pos[] = {-400, 0, 200, 400};
+        int spd[] = {20, 15, 10, 5};
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 3; j++){
+                float bx = pos[i], by = random(height * 2) - 400;
+                for(int k = 0; k < 3; k++){
+                    int id = 0;
+                    id = getemptyID();
+                    if (id != -1) {
+                        sp[id] = new Sparcle(
+                            12, 4, //動作タイプ、表示タイプ
+                            100, //サイズ
+                            spd[i], //速度
+                            col, //色
+                            bx, by, 650 + random(-150, 150) + k * 30,//座標
+                            radians(90) //角度
+                        );
+                    }
+                }
+            }
         }
+    }
+
+    //--六角形でも描きます?
+    public void hexaWallEffect(color col){
+        int cnt = 0;
+        for(int z = 500; z > -1000; z-=200){
+            for(int y = -height; y < height * 2; y+=400){
+                int ty = y, tx = 300;
+                if(cnt % 2 == 0){
+                    ty = y + 100;
+                    tx = -800;
+                }
+                int id = 0;
+                id = getemptyID();
+                if (id != -1) {
+                    sp[id] = new Sparcle(
+                        12, 3, //動作タイプ、表示タイプ
+                        200, //サイズ
+                        15, //速度
+                        col, //色
+                        tx, ty, z,//座標
+                        radians(90) //角度
+                    );
+                }
+            }
+            cnt++;
+        }
+
     }
 
     /*

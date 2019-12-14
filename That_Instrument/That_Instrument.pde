@@ -24,6 +24,7 @@ color efColor[] = {
     color(119, 119, 255), 
     color(119, 255, 255)
 }; //エフェクトカラー
+int efcID = 0; //最後に選択された列番号
 
 //楽器番号はちょっと長くなるので別で記述
 //番号の特定は instlist[i][selidx[i]] でぶん回せばよい
@@ -38,6 +39,7 @@ int instlist[][] = {
 int lcnt = 0;
 int seqStat = 0; //シーケンサの状態 ファイル切り替え時1になりエフェクトが無効化される
 int mils = 0, mils_ = 0; //コントローラが操作されるインターバル
+int efmode = 0; //常時エフェクトのモード
 
 //--
 void setup() {
@@ -84,8 +86,20 @@ void draw() {
         0, 1, 0 //カメラの向き
     ); 
     manager.update();
-    if(lcnt%10 == 0){
-        
+    if(lcnt % 50 == 0){
+        switch (efmode) {
+            case 0:
+                manager.arrowEffect(efColor[efcID]);    
+                break;
+
+            case 1:
+                manager.arrowEffect(efColor[efcID]);    
+                break;
+        }
+    }
+
+    if(lcnt % 500 == 0){
+        efmode = int(random(2));
     }
 
     lcnt++;
@@ -98,6 +112,7 @@ void mix(){
         mixer.setSequence(i, sequences[i][selidx[i]]);
     }
     int insts[] = new int[16];
+    int volumes[] = {0, 0, 0, 0};
     int chList[] = {1, 2, 3, 4, 5, 6, 10, 11, 12, 7, 8, 9};
     for(int i = 0; i < 4; i++){
         for(int j = i * 3; j < i * 3 + 3; j++){
@@ -105,6 +120,7 @@ void mix(){
         }
     }
     mixer.setInsts(insts);
+    mixer.setVolumes(volumes);
 
     long current = 0; //現在位置
     if(sequencer.isRunning()){
@@ -126,5 +142,5 @@ void mix(){
 }
 
 void mousePressed(){
-    manager.arrowEffect(#FFFFFF);
+    manager.hexaWallEffect(#FFFFFF);
 }
